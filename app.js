@@ -1,4 +1,3 @@
-const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -10,7 +9,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use((req, res, next) => {
   req.user = {
-    _id: '63827ef7e145f6b109b228b6'
+    _id: '63827ef7e145f6b109b228b6',
   };
   next();
 });
@@ -22,4 +21,3 @@ app.use('/cards', require('./routes/cards'));
 app.listen(PORT, () => {
   console.log('Всё ок');
 });
-
