@@ -24,10 +24,15 @@ module.exports.createCard = (req, res) => {
 
 module.exports.deleteCard = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId)
-    .then((card) => res.send({ data: card }))
+    .then((card) => {
+      if (!card) {
+        return res.status(BAD_REQUEST).send({ message: 'Карточка с указанным _id не найдена' });
+      }
+      res.send({ data: card });
+    })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(NOT_FOUND).send({ message: 'Карточка с указанным _id не найдена' });
+        return res.status(NOT_FOUND).send({ message: 'Страница не найдена' });
       }
       res.status(INTERNAL_SERVER_ERROR).send({ message: 'Что-то пошло нет так...' });
     });
@@ -38,10 +43,16 @@ module.exports.likeCard = (req, res) => {
     req.params.cardId,
     { $addToSet: { likes: req.user._id } }, // добавить _id в массив, если его там нет
     { new: true },
-  ).then((card) => res.send({ data: card }))
+  )
+    .then((card) => {
+      if (!card) {
+        return res.status(BAD_REQUEST).send({ message: 'Карточка с указанным _id не найдена' });
+      }
+      res.send({ data: card });
+    })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(BAD_REQUEST).send({ message: 'Переданы некорректные данные для постановки лайка' });
+        return res.status(NOT_FOUND).send({ message: 'Страница не найдена' });
       }
       res.status(INTERNAL_SERVER_ERROR).send({ message: 'Что-то пошло нет так...' });
     });
@@ -52,10 +63,16 @@ module.exports.dislikeCard = (req, res) => {
     req.params.cardId,
     { $pull: { likes: req.user._id } }, // убрать _id из массива
     { new: true },
-  ).then((card) => res.send({ data: card }))
+  )
+    .then((card) => {
+      if (!card) {
+        return res.status(BAD_REQUEST).send({ message: 'Карточка с указанным _id не найдена' });
+      }
+      res.send({ data: card });
+    })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(BAD_REQUEST).send({ message: 'Переданы некорректные данные для снятия лайка' });
+        return res.status(NOT_FOUND).send({ message: 'Страница не найдена' });
       }
       res.status(INTERNAL_SERVER_ERROR).send({ message: 'Что-то пошло нет так...' });
     });
