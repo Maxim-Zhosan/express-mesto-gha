@@ -13,7 +13,7 @@ module.exports.getUserById = (req, res) => {
   User.findById(req.params.id)
     .then((user) => {
       if (!user) {
-        return res.status(NOT_FOUND).send({ message: 'Пользователь с несуществующим в БД id' });
+        return res.status(NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден' });
       }
       res.send({ data: user });
     })
@@ -50,15 +50,13 @@ module.exports.updateProfile = (req, res) => {
   )
     .then((user) => {
       if (!user) {
-        return res.status(NOT_FOUND).send({ message: 'Пользователь с несуществующим в БД id' });
+        return res.status(NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден' });
       }
       res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(BAD_REQUEST).send({ message: 'Переданы некорректные данные при обновлении профиля' });
-      } if (err.name === 'CastError') {
-        return res.status(NOT_FOUND).send({ message: 'Страница не найдена' });
       }
       res.status(INTERNAL_SERVER_ERROR).send({ message: 'Что-то пошло нет так...' });
     });
@@ -84,8 +82,6 @@ module.exports.updateAvatar = (req, res) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(BAD_REQUEST).send({ message: 'Переданы некорректные данные при обновлении аватара' });
-      } if (err.name === 'CastError') {
-        return res.status(NOT_FOUND).send({ message: 'Страница не найдена' });
       }
       res.status(INTERNAL_SERVER_ERROR).send({ message: 'Что-то пошло нет так...' });
     });

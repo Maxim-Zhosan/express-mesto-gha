@@ -32,7 +32,7 @@ module.exports.deleteCard = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(BAD_REQUEST).send({ message: 'Удаление карточки с некорректным id' });
+        return res.status(BAD_REQUEST).send({ message: 'Некорректный id карточки' });
       }
       res.status(INTERNAL_SERVER_ERROR).send({ message: 'Что-то пошло нет так...' });
     });
@@ -52,7 +52,7 @@ module.exports.likeCard = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(BAD_REQUEST).send({ message: 'Страница не найдена' });
+        return res.status(BAD_REQUEST).send({ message: 'Некорректный id карточки' });
       }
       res.status(INTERNAL_SERVER_ERROR).send({ message: 'Что-то пошло нет так...' });
     });
@@ -72,7 +72,7 @@ module.exports.dislikeCard = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(BAD_REQUEST).send({ message: 'Удаление лайка у карточки с некорректным id' });
+        return res.status(BAD_REQUEST).send({ message: 'Некорректный id карточки' });
       }
       res.status(INTERNAL_SERVER_ERROR).send({ message: 'Что-то пошло нет так...' });
     });
