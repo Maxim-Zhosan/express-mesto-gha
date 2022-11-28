@@ -26,7 +26,7 @@ module.exports.deleteCard = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId)
     .then((card) => {
       if (!card) {
-        return res.status(BAD_REQUEST).send({ message: 'Карточка с указанным _id не найдена' });
+        return res.status(NOT_FOUND).send({ message: 'Карточка с указанным _id не найдена' });
       }
       res.send({ data: card });
     })
@@ -46,13 +46,13 @@ module.exports.likeCard = (req, res) => {
   )
     .then((card) => {
       if (!card) {
-        return res.status(BAD_REQUEST).send({ message: 'Карточка с указанным _id не найдена' });
+        return res.status(NOT_FOUND).send({ message: 'Карточка с указанным _id не найдена' });
       }
       res.send({ data: card });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(NOT_FOUND).send({ message: 'Страница не найдена' });
+        return res.status(BAD_REQUEST).send({ message: 'Страница не найдена' });
       }
       res.status(INTERNAL_SERVER_ERROR).send({ message: 'Что-то пошло нет так...' });
     });

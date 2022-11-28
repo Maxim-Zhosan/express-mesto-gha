@@ -13,13 +13,13 @@ module.exports.getUserById = (req, res) => {
   User.findById(req.params.id)
     .then((user) => {
       if (!user) {
-        return res.status(NOT_FOUND).send({ message: 'Пользователь по указанному _id не найден' });
+        return res.status(NOT_FOUND).send({ message: 'Пользователь с несуществующим в БД id' });
       }
       res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(NOT_FOUND).send({ message: 'Страница не найдена' });
+        return res.status(BAD_REQUEST).send({ message: 'Некорректный _id пользователя' });
       }
       res.status(INTERNAL_SERVER_ERROR).send({ message: err.name });
     });
@@ -50,7 +50,7 @@ module.exports.updateProfile = (req, res) => {
   )
     .then((user) => {
       if (!user) {
-        return res.status(BAD_REQUEST).send({ message: 'Пользователь по указанному _id не найден' });
+        return res.status(NOT_FOUND).send({ message: 'Пользователь с несуществующим в БД id' });
       }
       res.send({ data: user });
     })
@@ -77,7 +77,7 @@ module.exports.updateAvatar = (req, res) => {
   )
     .then((user) => {
       if (!user) {
-        return res.status(BAD_REQUEST).send({ message: 'Пользователь по указанному _id не найден' });
+        return res.status(NOT_FOUND).send({ message: 'Пользователь с несуществующим в БД id' });
       }
       res.send({ data: user });
     })
