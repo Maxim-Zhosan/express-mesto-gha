@@ -1,7 +1,7 @@
 const Card = require('../models/card');
 const {
   INTERNAL_SERVER_ERROR, BAD_REQUEST, NOT_FOUND,
-} = require('./constants');
+} = require('../constants/errors');
 
 module.exports.getCards = (req, res) => {
   Card.find({})
@@ -57,6 +57,6 @@ module.exports.dislikeCard = (req, res) => {
       if (err.name === 'CastError') {
         return res.status(BAD_REQUEST).send({ message: 'Переданы некорректные данные для снятия лайка' });
       }
-      res.status(500).send({ message: 'Что-то пошло нет так...' });
+      res.status(INTERNAL_SERVER_ERROR).send({ message: 'Что-то пошло нет так...' });
     });
 };

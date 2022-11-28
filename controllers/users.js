@@ -1,7 +1,7 @@
 const User = require('../models/user');
 const {
   INTERNAL_SERVER_ERROR, BAD_REQUEST, NOT_FOUND, CREATED,
-} = require('./constants');
+} = require('../constants/errors');
 
 module.exports.getUsers = (req, res) => {
   User.find({})
@@ -15,6 +15,8 @@ module.exports.getUserById = (req, res) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         return res.status(NOT_FOUND).send({ message: 'Пользователь по указанному _id не найден' });
+        // Не очень понял здесь, что исправить. В задании указаны следующие возможные ошибки по этому роуту:  "404 — Пользователь по указанному _id не найден. 500 — Ошибка по умолчанию."
+        // И ещё я проверил в Postman все ошибки, которые связаны с необработкой в контроллерах запросов, у меня они обрабатываются. Может пришлёте скришоты, как у Вас?
       }
       res.status(INTERNAL_SERVER_ERROR).send({ message: err });
     });
