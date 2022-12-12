@@ -117,7 +117,7 @@ module.exports.login = (req, res, next) => {
       if (!user) {
         next(new UnauthorizedError('Неправильные почта или пароль'));
       } else {
-        return bcrypt.compare(password, user.password)
+        bcrypt.compare(password, user.password)
           .then((matched) => {
             if (!matched) {
               // хеши не совпали — отклоняем промис
