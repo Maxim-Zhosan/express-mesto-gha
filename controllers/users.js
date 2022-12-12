@@ -18,7 +18,16 @@ module.exports.getUserById = (req, res, next) => {
       if (!user) {
         next(new NotFoundError('Пользователь с указанным _id не найден'));
       } else {
-        res.send({ data: user });
+        res.send({
+          data:
+          {
+            name: user.name,
+            about: user.about,
+            avatar: user.avatar,
+            email: user.email,
+            _id: user._id,
+          },
+        });
       }
     })
     .catch((err) => {
@@ -43,7 +52,16 @@ module.exports.createUser = (req, res, next) => {
           .then((hash) => User.create({
             name, about, avatar, email, password: hash,
           }))
-          .then((user) => res.status(201).send({ data: user }))
+          .then((user) => res.status(201).send({
+            data:
+            {
+              name: user.name,
+              about: user.about,
+              avatar: user.avatar,
+              email: user.email,
+              _id: user._id,
+            },
+          }))
           .catch((err) => {
             if (err.name === 'ValidationError') {
               next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
@@ -70,7 +88,16 @@ module.exports.updateProfile = (req, res, next) => {
       if (!user) {
         next(new NotFoundError('Пользователь с указанным _id не найден'));
       } else {
-        res.send({ data: user });
+        res.send({
+          data:
+          {
+            name: user.name,
+            about: user.about,
+            avatar: user.avatar,
+            email: user.email,
+            _id: user._id,
+          },
+        });
       }
     })
     .catch((err) => {
@@ -97,7 +124,16 @@ module.exports.updateAvatar = (req, res, next) => {
       if (!user) {
         next(new NotFoundError('Пользователь с несуществующим в БД id'));
       } else {
-        res.send({ data: user });
+        res.send({
+          data:
+          {
+            name: user.name,
+            about: user.about,
+            avatar: user.avatar,
+            email: user.email,
+            _id: user._id,
+          },
+        });
       }
     })
     .catch((err) => {
@@ -139,7 +175,16 @@ module.exports.getCurrentUser = (req, res, next) => {
       if (!user) {
         next(new NotFoundError('Пользователь с указанным _id не найден'));
       } else {
-        res.send({ data: user });
+        res.send({
+          data:
+          {
+            name: user.name,
+            about: user.about,
+            avatar: user.avatar,
+            email: user.email,
+            _id: user._id,
+          },
+        });
       }
     })
     .catch(next);
