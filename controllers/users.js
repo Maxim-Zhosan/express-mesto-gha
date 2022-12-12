@@ -160,15 +160,15 @@ module.exports.login = (req, res, next) => {
               next(new UnauthorizedError('Неправильные почта или пароль'));
             } else {
               // аутентификация успешна
-              const token = jwt.sign({ _id: user._id }, 'super-strong-secret', { expiresIn: '7d' });
+              const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
               res
                 .cookie('jwt', token, {
                   // token - наш JWT токен, который мы отправляем
                   maxAge: 3600000,
                   httpOnly: true,
-                  sameSite: true,
                 })
-                .send({ _id: user._id });
+                .send({ _id: user._id })
+                .end();
             }
           });
       }

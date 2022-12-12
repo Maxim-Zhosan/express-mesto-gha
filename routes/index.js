@@ -9,9 +9,6 @@ const pageNotFoundError = (req, res) => {
   res.status(404).send({ message: 'Страница не найдена' });
 };
 
-index.use('/users', auth, require('./users'));
-index.use('/cards', auth, require('./cards'));
-
 index.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
@@ -21,12 +18,16 @@ index.post('/signup', celebrate({
     password: Joi.string().required().min(6),
   }).unknown(true),
 }), createUser);
+
 index.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required().min(6),
   }),
 }), login);
+
+index.use('/users', auth, require('./users'));
+index.use('/cards', auth, require('./cards'));
 
 index.use('/', pageNotFoundError);
 
