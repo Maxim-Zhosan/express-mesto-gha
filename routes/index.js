@@ -1,5 +1,6 @@
 const index = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
+const auth = require('../middlewares/auth');
 const {
   createUser, login,
 } = require('../controllers/users');
@@ -8,8 +9,8 @@ const pageNotFoundError = (req, res) => {
   res.status(404).send({ message: 'Страница не найдена' });
 };
 
-index.use('/users', require('./users'));
-index.use('/cards', require('./cards'));
+index.use('/users', auth, require('./users'));
+index.use('/cards', auth, require('./cards'));
 
 index.post('/signup', celebrate({
   body: Joi.object().keys({
