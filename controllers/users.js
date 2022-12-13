@@ -44,22 +44,22 @@ module.exports.createUser = (req, res, next) => {
     name, about, avatar, email, password,
   } = req.body;
   User.findOne({ email })
-    .then((e) => {
-      if (e) {
+    .then((user) => {
+      if (user) {
         next(new ConflictError('Пользователь с таким email уже существует'));
       } else {
         bcrypt.hash(password, 10)
           .then((hash) => User.create({
             name, about, avatar, email, password: hash,
           }))
-          .then((user) => res.status(201).send({
+          .then((newUser) => res.status(201).send({
             data:
             {
-              name: user.name,
-              about: user.about,
-              avatar: user.avatar,
-              email: user.email,
-              _id: user._id,
+              name: newUser.name,
+              about: newUser.about,
+              avatar: newUser.avatar,
+              email: newUser.email,
+              _id: newUser._id,
             },
           }))
           .catch((err) => {
@@ -70,7 +70,8 @@ module.exports.createUser = (req, res, next) => {
             }
           });
       }
-    });
+    })
+    .catch(next);
 };
 
 module.exports.updateProfile = (req, res, next) => {

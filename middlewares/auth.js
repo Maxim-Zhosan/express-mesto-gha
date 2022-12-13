@@ -4,7 +4,7 @@ const UnauthorizedError = require('../errors/unauthorized-err');
 module.exports = (req, res, next) => {
   const { cookie } = req.headers;
   if (!cookie || !cookie.startsWith('jwt=')) {
-    next(new UnauthorizedError('Необходима авторизация'));
+    return next(new UnauthorizedError('Необходима авторизация'));
   }
 
   const token = cookie.replace('jwt=', '');
