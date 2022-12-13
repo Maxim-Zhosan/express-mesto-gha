@@ -20,7 +20,7 @@ users.patch('/me/avatar', celebrate({
 }), updateAvatar);
 users.get('/:id', celebrate({
   params: Joi.object().keys({
-    id: Joi.string().alphanum().length(24),
+    id: Joi.string().alphanum().length(24).hex(),
   }),
 }), getUserById);
 
